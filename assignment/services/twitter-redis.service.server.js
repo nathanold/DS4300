@@ -1,6 +1,11 @@
 var app = require('../../express');
-var redis = require("redis"),
-    client = redis.createClient();
+var redis = require("redis");
+
+if(!process.env.REDIS_URL) {
+    var client = redis.createClient();
+}else{
+    var client = redis.createClient(process.env.REDIS_URL);
+}
 
 app.post('/api/tweet/:tweetId', postTweet);
 app.put('/api/followers/add/:followerId/:followeeId', addFollower);
